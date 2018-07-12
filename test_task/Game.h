@@ -6,7 +6,7 @@
 #include "FPS_Control.h"
 #include "Player.h"
 
-class Game
+class Game : ActiveObject
 {
 	static const int SCREEN_WIDTH	= 900;
 	static const int SCREEN_HEIGHT	= 600;
@@ -14,19 +14,22 @@ class Game
 
 	SDL_Window* mainWindow;
 	SDL_Renderer* renderer;
-	HDC hDC;
 
 	bool running;
-	std::vector<SDL_Rect> walls;
+	bool showHitBoxes;
 	Player mainPlayer;
+	std::vector<SDL_Rect> map;
+	std::vector<Bullet> bullets;
 
+private:
+	void EventHandler();
+	void LogicUpdater();
+	void ScreenUpdater();
 
 public:
 	Game();
 	~Game();
 
 	void Start();
-	void UpdateScreen();
-
 };
 

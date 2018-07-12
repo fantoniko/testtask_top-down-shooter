@@ -72,10 +72,11 @@
   <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -123,23 +124,25 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ActiveObject.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="FPS_Control.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActiveObject.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="FPS_Control.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets" Condition="Exists('..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets')" />
     <Import Project="..\packages\sdl2.2.0.5\build\native\sdl2.targets" Condition="Exists('..\packages\sdl2.2.0.5\build\native\sdl2.targets')" />
-    <Import Project="..\packages\sdl2.new.redist.2.0.8\build\native\sdl2.new.redist.targets" Condition="Exists('..\packages\sdl2.new.redist.2.0.8\build\native\sdl2.new.redist.targets')" />
-    <Import Project="..\packages\sdl2.new.2.0.8\build\native\sdl2.new.targets" Condition="Exists('..\packages\sdl2.new.2.0.8\build\native\sdl2.new.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -147,7 +150,5 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets'))" />
     <Error Condition="!Exists('..\packages\sdl2.2.0.5\build\native\sdl2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sdl2.2.0.5\build\native\sdl2.targets'))" />
-    <Error Condition="!Exists('..\packages\sdl2.new.redist.2.0.8\build\native\sdl2.new.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sdl2.new.redist.2.0.8\build\native\sdl2.new.redist.targets'))" />
-    <Error Condition="!Exists('..\packages\sdl2.new.2.0.8\build\native\sdl2.new.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sdl2.new.2.0.8\build\native\sdl2.new.targets'))" />
   </Target>
 </Project>
