@@ -2,7 +2,7 @@
 
 const int Bullet::BULLET_BOX_SIZE					= 5;
 const int Bullet::BULLET_MOVE_STEP					= 7;
-const double Bullet::LINE_STEP_FOR_BULLET_CIRCLE	= 0.2;
+const double Bullet::LINE_STEP_FOR_BULLET_CIRCLE	= 0.5;
 
 Bullet::Bullet()
 {
@@ -103,7 +103,7 @@ void Bullet::ReflectDirection(SDL_Rect wall)
 	Vector2D reflectiveSurface(point2, point1);
 	Vector2D surfaceNormal(reflectiveSurface.y, -reflectiveSurface.x);
 	surfaceNormal.Normalize();
-	direction = direction + surfaceNormal * 2;
+	direction = direction - surfaceNormal * 2 * (direction * surfaceNormal);
 }
 
 CompassVectorDirection Bullet::GetCompassDirection()

@@ -22,3 +22,13 @@ Vector2D Vector2D::operator+(Vector2D addVector)
 {
 	return Vector2D(x + addVector.x, y + addVector.y);
 }
+
+Vector2D Vector2D::operator-(Vector2D addVector)
+{
+	return Vector2D(x - addVector.x, y - addVector.y);
+}
+
+Vector2D Vector2D::operator*(Vector2D addVector)
+{
+	return Vector2D(x * addVector.x, y * addVector.y);
+}

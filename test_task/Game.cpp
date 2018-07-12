@@ -15,15 +15,12 @@ Game::Game()
 	running = true;
 	showHitBoxes = false;
 
-	bullets.clear();
-	{
-		map.push_back({ 200, 200, 50, 200 });
-		map.push_back({ 300, 500, 200, 50 });
-		map.push_back({ 300, 0, 400, 30 });
-		map.push_back({ 350, 320, 70, 70 });
-		map.push_back({ 700, 100, 50, 450 });
-		map.push_back({ 0, 0, 50, 300 });
-	}
+	map.push_back({ 200, 200, 50, 200 });
+	map.push_back({ 300, 500, 200, 50 });
+	map.push_back({ 300, 0, 400, 30 });
+	map.push_back({ 350, 320, 70, 70 });
+	map.push_back({ 700, 100, 50, 450 });
+	map.push_back({ 0, 0, 50, 300 });
 }
 
 Game::~Game()
@@ -46,51 +43,40 @@ void Game::Start()
 
 void Game::EventHandler()
 {
-	SDL_Event event;
-	while (SDL_PollEvent(&event))
+	keyHandler.UpdateKeyStates();
+	
+	if (keyHandler.IsKeyTapped(SDL_SCANCODE_F1))
 	{
-		switch (event.type)
-		{
-		case SDL_QUIT:
-			running = false;
-			break;
-		case SDL_KEYDOWN:
-			switch (event.key.keysym.sym)
-			{
-			case SDLK_ESCAPE:
-				running = false;
-				break;
-			case SDLK_F1:
-				if (showHitBoxes)
-					showHitBoxes = false;
-				else
-					showHitBoxes = true;
-				break;
-			case SDLK_q:
-				mainPlayer.TurnSight(TURN_COUNTERCLOCKWISE);
-				break;
-			case SDLK_e:
-				mainPlayer.TurnSight(TURN_CLOCKWISE);
-				break;
-			case SDLK_w:
-				mainPlayer.Move(map, MOVE_FORWARD);
-				break;
-			case SDLK_s:
-				mainPlayer.Move(map, MOVE_BACKWARD);
-				break;
-			case SDLK_a:
-				mainPlayer.Move(map, MOVE_LEFT);
-				break;
-			case SDLK_d:
-				mainPlayer.Move(map, MOVE_RIGHT);
-				break;
-			case SDLK_f:
-				mainPlayer.Fire(bullets);
-				break;
-			}
-			break;
-		}
+		if (showHitBoxes)
+			showHitBoxes = false;
+		else
+			showHitBoxes = true;
 	}
+
+	if (keyHandler.GetEvent().type == SDL_QUIT || keyHandler.IsKeyDown(SDL_SCANCODE_ESCAPE))
+		running = false;
+
+	if (keyHandler.IsKeyDown(SDL_SCANCODE_Q))
+		mainPlayer.TurnSight(TURN_COUNTERCLOCKWISE);
+
+	if (keyHandler.IsKeyDown(SDL_SCANCODE_E))
+		mainPlayer.TurnSight(TURN_CLOCKWISE);
+
+	if (keyHandler.IsKeyDown(SDL_SCANCODE_W))
+		mainPlayer.Move(map, MOVE_FORWARD);
+
+	if (keyHandler.IsKeyDown(SDL_SCANCODE_S))
+		mainPlayer.Move(map, MOVE_BACKWARD);
+
+	if (keyHandler.IsKeyDown(SDL_SCANCODE_A))
+		mainPlayer.Move(map, MOVE_LEFT);
+
+	if (keyHandler.IsKeyDown(SDL_SCANCODE_D))
+		mainPlayer.Move(map, MOVE_RIGHT);
+
+	if (keyHandler.IsKeyTapped(SDL_SCANCODE_F))
+		mainPlayer.Fire(bullets);
+
 }
 
 void Game::LogicUpdater()

@@ -3,6 +3,7 @@
 #include <vector>
 #include "Windows.h"
 #include "SDL.h"
+#include "KeyboardHandler.h"
 #include "FPS_Control.h"
 #include "Player.h"
 
@@ -17,6 +18,7 @@ class Game : ActiveObject
 
 	bool running;
 	bool showHitBoxes;
+	KeyboardHandler keyHandler;
 	Player mainPlayer;
 	std::vector<SDL_Rect> map;
 	std::vector<Bullet> bullets;

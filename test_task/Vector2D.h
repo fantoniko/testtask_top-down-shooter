@@ -14,8 +14,10 @@ public:
 	~Vector2D();
 
 	Vector2D Normalize();
-	Vector2D operator + (Vector2D addVector);
+	Vector2D operator+ (Vector2D addVector);
+	Vector2D operator- (Vector2D addVector);
 	template<typename T> Vector2D operator* (T coef);
+	Vector2D operator* (Vector2D addVector);
 	template<typename T> Vector2D operator/ (T divider);
 };
 

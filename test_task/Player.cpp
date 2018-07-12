@@ -1,7 +1,7 @@
 #include "Player.h"
 
 const int Player::PLAYER_BOX_SIZE					= 40;
-const double Player::DELTA_TURN						= 0.2;
+const double Player::DELTA_TURN						= 0.1;
 const int Player::PLAYER_MOVE_STEP					= 5;
 const double Player::LINE_STEP_FOR_PLAYER_CIRCLE	= 0.05;
 
