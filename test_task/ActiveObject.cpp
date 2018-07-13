@@ -38,3 +38,8 @@ bool ActiveObject::Collision(const SDL_Rect& addRect)
 		return 0;
 	return 1;
 }
+
+const SDL_Rect& ActiveObject::GetRect()
+{
+	return rect;
+}

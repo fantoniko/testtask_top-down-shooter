@@ -16,5 +16,6 @@ public:
 
 	void DrawCircle(SDL_Renderer* renderer, const SDL_Rect& rectBorder, double lineStep);
 	bool Collision(const SDL_Rect& addRect);
+	const SDL_Rect& GetRect();
 };
 

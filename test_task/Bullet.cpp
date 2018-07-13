@@ -1,7 +1,7 @@
 #include "Bullet.h"
 
 const int Bullet::BULLET_BOX_SIZE					= 5;
-const int Bullet::BULLET_MOVE_STEP					= 7;
+const int Bullet::BULLET_MOVE_STEP					= 6;
 const double Bullet::LINE_STEP_FOR_BULLET_CIRCLE	= 0.5;
 
 Bullet::Bullet()

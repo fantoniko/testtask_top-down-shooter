@@ -8,8 +8,8 @@ const double Player::LINE_STEP_FOR_PLAYER_CIRCLE	= 0.05;
 Player::Player()
 {
 	direction.x = 0;
-	direction.y = -1;
-	rect = { 500, 500, PLAYER_BOX_SIZE, PLAYER_BOX_SIZE };
+	direction.y = 1;
+	rect = { 500, 300, PLAYER_BOX_SIZE, PLAYER_BOX_SIZE };
 }
 
 Player::~Player()
@@ -72,14 +72,21 @@ void Player::Fire(std::vector<Bullet>& bullets)
 	bullets.push_back(Bullet(playerCursor, direction));
 }
 
+void Player::SetPosition(SDL_Point coords)
+{
+	rect = { coords.x, coords.y, PLAYER_BOX_SIZE, PLAYER_BOX_SIZE };
+	direction.x = 0;
+	direction.y = 1;
+}
+
 void Player::Show(SDL_Renderer* renderer, bool showHitBoxes)
 {
 	SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, SDL_ALPHA_OPAQUE);
 	DrawCircle(renderer, rect, LINE_STEP_FOR_PLAYER_CIRCLE);
 	int centerX = rect.x + rect.w / 2;
 	int centerY = rect.y + rect.h / 2;
-	playerCursor.x = centerX + direction.x * PLAYER_BOX_SIZE / 1.5;
-	playerCursor.y = centerY + direction.y * PLAYER_BOX_SIZE / 1.5;
+	playerCursor.x = centerX + direction.x * PLAYER_BOX_SIZE / 1.2;
+	playerCursor.y = centerY + direction.y * PLAYER_BOX_SIZE / 1.2;
 
 	SDL_RenderDrawLine(renderer, centerX, centerY, playerCursor.x, playerCursor.y);
 

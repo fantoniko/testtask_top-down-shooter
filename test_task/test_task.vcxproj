@@ -72,7 +72,7 @@
   <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
@@ -124,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ActiveObject.cpp" />
+    <ClCompile Include="BotPlayer.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="FPS_Control.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -134,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActiveObject.h" />
+    <ClInclude Include="BotPlayer.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="FPS_Control.h" />
     <ClInclude Include="Game.h" />
@@ -141,10 +143,16 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Vector2D.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="Roboto-Black.ttf" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets" Condition="Exists('..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets')" />
     <Import Project="..\packages\sdl2.2.0.5\build\native\sdl2.targets" Condition="Exists('..\packages\sdl2.2.0.5\build\native\sdl2.targets')" />
+    <Import Project="..\packages\sdl2.v140.redist.2.0.4\build\native\sdl2.v140.redist.targets" Condition="Exists('..\packages\sdl2.v140.redist.2.0.4\build\native\sdl2.v140.redist.targets')" />
+    <Import Project="..\packages\ikkepop.sdl2_ttf.redist.2.0.14\build\native\ikkepop.sdl2_ttf.redist.targets" Condition="Exists('..\packages\ikkepop.sdl2_ttf.redist.2.0.14\build\native\ikkepop.sdl2_ttf.redist.targets')" />
+    <Import Project="..\packages\ikkepop.sdl2_ttf.2.0.14\build\native\ikkepop.sdl2_ttf.targets" Condition="Exists('..\packages\ikkepop.sdl2_ttf.2.0.14\build\native\ikkepop.sdl2_ttf.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -152,5 +160,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets'))" />
     <Error Condition="!Exists('..\packages\sdl2.2.0.5\build\native\sdl2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sdl2.2.0.5\build\native\sdl2.targets'))" />
+    <Error Condition="!Exists('..\packages\sdl2.v140.redist.2.0.4\build\native\sdl2.v140.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sdl2.v140.redist.2.0.4\build\native\sdl2.v140.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\ikkepop.sdl2_ttf.redist.2.0.14\build\native\ikkepop.sdl2_ttf.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ikkepop.sdl2_ttf.redist.2.0.14\build\native\ikkepop.sdl2_ttf.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\ikkepop.sdl2_ttf.2.0.14\build\native\ikkepop.sdl2_ttf.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ikkepop.sdl2_ttf.2.0.14\build\native\ikkepop.sdl2_ttf.targets'))" />
   </Target>
 </Project>

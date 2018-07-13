@@ -18,6 +18,7 @@ enum MoveDirection
 
 class Player : public ActiveObject
 {
+protected:
 	static const int PLAYER_BOX_SIZE;
 	static const double DELTA_TURN;
 	static const int PLAYER_MOVE_STEP;
@@ -27,9 +28,11 @@ class Player : public ActiveObject
 
 public:
 	Player();
+	Player(SDL_Point coords);
 	~Player();
 	void TurnSight(TurnPlayer turnPlayer);
 	void Show(SDL_Renderer* renderer, bool showPlayerHitBoxes);
 	void Move(const std::vector<SDL_Rect>& map, MoveDirection moveDirection);
 	void Fire(std::vector<Bullet>& bullets);
+	void SetPosition(SDL_Point coords);
 };

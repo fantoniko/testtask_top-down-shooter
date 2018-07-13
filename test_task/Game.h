@@ -1,11 +1,19 @@
 #pragma once
 #include <cmath>
 #include <vector>
+#include <string>
 #include "Windows.h"
 #include "SDL.h"
+#include "SDL_ttf.h"
 #include "KeyboardHandler.h"
 #include "FPS_Control.h"
-#include "Player.h"
+#include "BotPlayer.h"
+
+struct GameScore
+{
+	int playerPoints;
+	int botPoints;
+};
 
 class Game : ActiveObject
 {
@@ -15,18 +23,24 @@ class Game : ActiveObject
 
 	SDL_Window* mainWindow;
 	SDL_Renderer* renderer;
+	TTF_Font* font;
+	SDL_Texture* scoreTexture;
+	SDL_Rect scoreRect;
 
 	bool running;
 	bool showHitBoxes;
 	KeyboardHandler keyHandler;
 	Player mainPlayer;
+	BotPlayer botPlayer;
 	std::vector<SDL_Rect> map;
 	std::vector<Bullet> bullets;
+	GameScore score;
 
 private:
 	void EventHandler();
 	void LogicUpdater();
 	void ScreenUpdater();
+	void Restart(bool playerWins);
 
 public:
 	Game();
