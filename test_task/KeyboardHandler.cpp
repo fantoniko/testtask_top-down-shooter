@@ -2,6 +2,7 @@
 
 void KeyboardHandler::UpdateKeyStates()
 {
+	//	Обвновление состояний и их запись в переменную
 	SDL_PumpEvents();
 	keyArray = (Uint8*)(SDL_GetKeyboardState(NULL));
 }

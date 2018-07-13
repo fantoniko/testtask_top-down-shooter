@@ -2,6 +2,7 @@
 
 Game::Game()
 {
+	//	Инициализация SDL и TTF
 	SDL_Init(SDL_INIT_EVERYTHING);
 	TTF_Init();
 
@@ -12,16 +13,18 @@ Game::Game()
 	renderer = SDL_CreateRenderer(mainWindow, -1, SDL_RENDERER_ACCELERATED);
 	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, SDL_ALPHA_OPAQUE);
 
-	rect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+	screenRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	score = { 0, 0 };
 
+	//	Создание карты из различных стен прямоугольной формы
 	map.push_back({ 200, 200, 50, 200 });
 	map.push_back({ 300, 500, 200, 50 });
 	map.push_back({ 300, 0, 400, 30 });
 	map.push_back({ 350, 320, 70, 70 });
 	map.push_back({ 700, 100, 50, 450 });
 	map.push_back({ 0, 50, 50, 300 });
-
+	
+	//	Инициализация флагов
 	running = true;
 	showHitBoxes = false;
 }
@@ -40,6 +43,8 @@ void Game::Start()
 	{
 		roundContinues = true;
 		bullets.clear();
+
+		//	Создание текстуры из данных о текущем счете для отображения на экране 
 		std::string textGameScore = std::to_string(score.playerPoints) + " : " + std::to_string(score.botPoints);
 		int w, h;
 		TTF_SizeText(font, textGameScore.c_str(), &w, &h);
@@ -47,11 +52,15 @@ void Game::Start()
 		SDL_Surface* textSurf = TTF_RenderText_Solid(font, textGameScore.c_str(), SDL_Color{ 255, 255, 255, 0 });
 		scoreTexture = SDL_CreateTextureFromSurface(renderer, textSurf);
 
+		//	Постановка игроков на исходные позиции
 		mainPlayer.SetPosition(SDL_Point{ 100, 100 });
 		botPlayer.SetPosition(SDL_Point{ 600, 500 });
 
+		//	Основной игровой цикл
 		while (running && roundContinues)
 		{
+			//	Контроль FPS, очистка экрана и отображение готовых сцен посредством 
+			//	вызовов конструктора и деструктора класса FPS_Control
 			FPS_Control locker(renderer);
 			EventHandler();
 			LogicUpdater();
@@ -62,8 +71,10 @@ void Game::Start()
 
 void Game::EventHandler()
 {
+	//	Обновление соостояний клавиш
 	keyHandler.UpdateKeyStates();
 	
+	// Обработка нажатий клавиш управления
 	if (keyHandler.IsKeyTapped(SDL_SCANCODE_F1))
 	{
 		if (showHitBoxes)
@@ -71,6 +82,9 @@ void Game::EventHandler()
 		else
 			showHitBoxes = true;
 	}
+
+	if (keyHandler.IsKeyTapped(SDL_SCANCODE_F2))
+		Restart(ROUND_TIE);
 
 	if (keyHandler.GetEvent().type == SDL_QUIT || keyHandler.IsKeyDown(SDL_SCANCODE_ESCAPE))
 		running = false;
@@ -99,30 +113,34 @@ void Game::EventHandler()
 
 void Game::LogicUpdater()
 {	
+	//	Проверки на нахождение пули в пределах экрана и коллизию с игроками
 	for (auto i = 0; i < bullets.size(); i++)
 	{
 		bullets[i].Move(map);
-		if (!Collision(bullets[i].GetRect()))
+		if(!SDL_HasIntersection(&screenRect, &bullets[i].GetRect()))
 		{
 			bullets.erase(bullets.begin() + i);
 			i--;
 			continue;
 		}
 
+		//	При коллизии с игроком запускается рестарт игры с обновленным счетом
 		if (SDL_HasIntersection(&bullets[i].GetRect(), &mainPlayer.GetRect()))
-			Restart(false);
+			Restart(ROUND_BOT_WINS);
 			
 		if (SDL_HasIntersection(&bullets[i].GetRect(), &botPlayer.GetRect()))
-			Restart(true);
+			Restart(ROUND_PLAYER_WINS);
 			
 	}	
 
+	//	Обновление логики бота
 	if(botPlayer.UpdateChecker(1))
 		botPlayer.Update(map, bullets, mainPlayer.GetRect());
 }
 
 void Game::ScreenUpdater()
 {
+	//	Отображение всех взаимодействующих объектов и текущего счета
 	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, SDL_ALPHA_OPAQUE);
 	for (auto i = 0; i < map.size(); i++)
 		SDL_RenderDrawRect(renderer, &map[i]);
@@ -131,17 +149,25 @@ void Game::ScreenUpdater()
 	botPlayer.Show(renderer, showHitBoxes);
 
 	for (auto i = 0; i < bullets.size(); i++)
-		bullets[i].Show(renderer);
+		bullets[i].Show(renderer, showHitBoxes);
 
 	SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
 }
 
-void Game::Restart(bool playerWins)
+void Game::Restart(RoundEnding roundEnding)
 {
-	if (playerWins)
+	//	Обновление счета с учетом победы одного из игроков или перезапуска
+	switch (roundEnding)
+	{
+	case ROUND_PLAYER_WINS:
 		score.playerPoints++;
-	else
+		break;
+	case ROUND_BOT_WINS:
 		score.botPoints++;
+		break;
+	case ROUND_TIE:
+		break;
+	}
 
 	roundContinues = false;
 }

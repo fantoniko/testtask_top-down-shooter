@@ -1,12 +1,6 @@
 #include "ActiveObject.h"
 
-ActiveObject::ActiveObject()
-{
-}
-
-ActiveObject::~ActiveObject()
-{
-}
+ActiveObject::ActiveObject() {}
 
 void ActiveObject::DrawCircle(SDL_Renderer* renderer, const SDL_Rect& rectBorder, double lineStep)
 {
@@ -28,6 +22,7 @@ void ActiveObject::DrawCircle(SDL_Renderer* renderer, const SDL_Rect& rectBorder
 
 bool ActiveObject::Collision(const SDL_Rect& addRect)
 {
+	//4 проверки на явное отсутствие коллизии
 	if (rect.y >= addRect.y + addRect.h)
 		return 0;
 	if (rect.x >= addRect.x + addRect.w)

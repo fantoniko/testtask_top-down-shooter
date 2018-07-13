@@ -1,6 +1,7 @@
 #pragma once
 #include "SDL.h"
 
+// Простейший класс 2D-Векторов
 class Vector2D
 {
 public:
@@ -11,7 +12,6 @@ public:
 	Vector2D();
 	Vector2D(SDL_Point point1, SDL_Point point2) : x(point2.x - point1.x), y(point2.y - point1.y) {}
 	Vector2D(double argX, double argY) : x(argX), y(argY) {}
-	~Vector2D();
 
 	Vector2D Normalize();
 	Vector2D operator+ (Vector2D addVector);
