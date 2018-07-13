@@ -30,7 +30,7 @@ void BotPlayer::Update(const std::vector<SDL_Rect>& map, std::vector<Bullet>& bu
 
 	srand(time(0));
 	MoveDirection mDir = MoveDirection(rand() % 4);
-	switch (mDir)
+	/*switch (mDir)
 	{
 	case MOVE_FORWARD:
 		Move(map, MOVE_FORWARD);
@@ -44,7 +44,7 @@ void BotPlayer::Update(const std::vector<SDL_Rect>& map, std::vector<Bullet>& bu
 	case MOVE_RIGHT:
 		Move(map, MOVE_RIGHT);
 		break;
-	}
+	}*/
 
 	noObstaclesBetween = true;
 	for (auto i = 0; i < map.size(); i++)
@@ -56,10 +56,7 @@ void BotPlayer::Update(const std::vector<SDL_Rect>& map, std::vector<Bullet>& bu
 		}
 	}
 
-	if (noObstaclesBetween && SDL_GetTicks() - fireStart >= fireCallDownMs)
-	{
-		Fire(bullets);
-		fireStart = SDL_GetTicks();
-	}
+	//if (noObstaclesBetween)
+		//Fire(bullets);
 		
 }

@@ -28,6 +28,7 @@ class Game : ActiveObject
 	SDL_Rect scoreRect;
 
 	bool running;
+	bool roundContinues;
 	bool showHitBoxes;
 	KeyboardHandler keyHandler;
 	Player mainPlayer;

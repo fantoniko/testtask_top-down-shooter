@@ -6,8 +6,7 @@ Game::Game()
 	TTF_Init();
 
 	font = TTF_OpenFont("Roboto-Black.ttf", 40);
-
-	LPCSTR windowName = "top-down shooter";
+	const char* windowName = "top-down shooter";
 	mainWindow = SDL_CreateWindow(windowName, 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, NULL);
 
 	renderer = SDL_CreateRenderer(mainWindow, -1, SDL_RENDERER_ACCELERATED);
@@ -23,6 +22,7 @@ Game::Game()
 	map.push_back({ 700, 100, 50, 450 });
 	map.push_back({ 0, 50, 50, 300 });
 
+	running = true;
 	showHitBoxes = false;
 }
 
@@ -36,24 +36,27 @@ Game::~Game()
 
 void Game::Start()
 {
-	std::string textGameScore = std::to_string(score.playerPoints) + " : " + std::to_string(score.botPoints);
-	int w, h;
-	TTF_SizeText(font, textGameScore.c_str(), &w, &h);
-	scoreRect = { 0, 0, w ,h };
-	SDL_Surface* textSurf = TTF_RenderText_Solid(font, textGameScore.c_str(), SDL_Color{ 255, 255, 255, 0 });
-	scoreTexture = SDL_CreateTextureFromSurface(renderer, textSurf);
-
-	mainPlayer.SetPosition(SDL_Point{ 100, 100 });
-	botPlayer.SetPosition(SDL_Point{ 600, 500 });
-
-	running = true;
-
-	while(running)
+	while (running)
 	{
-		FPS_Control locker(renderer);
-		EventHandler();
-		LogicUpdater();
-		ScreenUpdater();
+		roundContinues = true;
+		bullets.clear();
+		std::string textGameScore = std::to_string(score.playerPoints) + " : " + std::to_string(score.botPoints);
+		int w, h;
+		TTF_SizeText(font, textGameScore.c_str(), &w, &h);
+		scoreRect = { 0, 0, w ,h };
+		SDL_Surface* textSurf = TTF_RenderText_Solid(font, textGameScore.c_str(), SDL_Color{ 255, 255, 255, 0 });
+		scoreTexture = SDL_CreateTextureFromSurface(renderer, textSurf);
+
+		mainPlayer.SetPosition(SDL_Point{ 100, 100 });
+		botPlayer.SetPosition(SDL_Point{ 600, 500 });
+
+		while (running && roundContinues)
+		{
+			FPS_Control locker(renderer);
+			EventHandler();
+			LogicUpdater();
+			ScreenUpdater();
+		}
 	}
 }
 
@@ -102,14 +105,16 @@ void Game::LogicUpdater()
 		if (!Collision(bullets[i].GetRect()))
 		{
 			bullets.erase(bullets.begin() + i);
-			//i--;
+			i--;
 			continue;
 		}
 
 		if (SDL_HasIntersection(&bullets[i].GetRect(), &mainPlayer.GetRect()))
 			Restart(false);
+			
 		if (SDL_HasIntersection(&bullets[i].GetRect(), &botPlayer.GetRect()))
 			Restart(true);
+			
 	}	
 
 	if(botPlayer.UpdateChecker(1))
@@ -133,11 +138,10 @@ void Game::ScreenUpdater()
 
 void Game::Restart(bool playerWins)
 {
-	bullets.clear();
 	if (playerWins)
 		score.playerPoints++;
 	else
 		score.botPoints++;
 
-	Start();
+	roundContinues = false;
 }

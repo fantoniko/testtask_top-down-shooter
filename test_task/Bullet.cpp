@@ -44,11 +44,13 @@ SDL_Rect Bullet::GetRect()
 
 void Bullet::ReflectDirection(SDL_Rect wall)
 {
+	int offsetCoef = 4;
 	SDL_Point point1, point2;
 	CompassVectorDirection cvd = GetCompassDirection();
 	switch (cvd)
 	{
 	case COMPASS_NORTHEAST:
+		
 		if (rect.x + rect.w - wall.x >= wall.y + wall.h - rect.y)
 		{
 			point1 = { wall.x, wall.y + wall.h };
@@ -59,8 +61,12 @@ void Bullet::ReflectDirection(SDL_Rect wall)
 			point1 = { wall.x, wall.y};
 			point2 = { wall.x, wall.y + wall.h };
 		}
+		rect.x -= BULLET_MOVE_STEP / offsetCoef;
+		rect.y += BULLET_MOVE_STEP / offsetCoef;
 		break;
+
 	case COMPASS_NORTHWEST:
+		
 		if (wall.x + wall.w - rect.x >= wall.y + wall.h - rect.y)
 		{
 			point1 = { wall.x, wall.y + wall.h };
@@ -71,8 +77,12 @@ void Bullet::ReflectDirection(SDL_Rect wall)
 			point1 = { wall.x + wall.w, wall.y + wall.h };
 			point2 = { wall.x + wall.w, wall.y };
 		}
+		rect.x += BULLET_MOVE_STEP / offsetCoef;
+		rect.y += BULLET_MOVE_STEP / offsetCoef;
 		break;
+
 	case COMPASS_SOUTHWEST:
+		
 		if (wall.x + wall.w - rect.x >= rect.y + rect.h - wall.y)
 		{
 			point1 = { wall.x + wall.w, wall.y };
@@ -83,8 +93,12 @@ void Bullet::ReflectDirection(SDL_Rect wall)
 			point1 = { wall.x + wall.w, wall.y + wall.h };
 			point2 = { wall.x + wall.w, wall.y };
 		}
+		rect.x += BULLET_MOVE_STEP / offsetCoef;
+		rect.y -= BULLET_MOVE_STEP / offsetCoef;
 		break;
+
 	case COMPASS_SOUTHEAST:
+	
 		if (rect.x + rect.w - wall.x >= rect.y + rect.h - wall.y)
 		{
 			point1 = { wall.x + wall.w, wall.y };
@@ -95,12 +109,15 @@ void Bullet::ReflectDirection(SDL_Rect wall)
 			point1 = { wall.x, wall.y };
 			point2 = { wall.x, wall.y + wall.h };
 		}
+		rect.x -= BULLET_MOVE_STEP / offsetCoef;
+		rect.y -= BULLET_MOVE_STEP / offsetCoef;
 		break;
+
 	default:
 		break;
 	}
 
-	Vector2D reflectiveSurface(point2, point1);
+	Vector2D reflectiveSurface(point1, point2);
 	Vector2D surfaceNormal(reflectiveSurface.y, -reflectiveSurface.x);
 	surfaceNormal.Normalize();
 	direction = direction - surfaceNormal * 2 * (direction * surfaceNormal);

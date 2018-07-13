@@ -23,8 +23,11 @@ protected:
 	static const double DELTA_TURN;
 	static const int PLAYER_MOVE_STEP;
 	static const double LINE_STEP_FOR_PLAYER_CIRCLE;
+	static const int FIRE_CALLDOWN_MS;
 
+	Vector2D speedVector;
 	SDL_Point playerCursor;
+	Uint32 fireStart;
 
 public:
 	Player();
@@ -34,5 +37,5 @@ public:
 	void Show(SDL_Renderer* renderer, bool showPlayerHitBoxes);
 	void Move(const std::vector<SDL_Rect>& map, MoveDirection moveDirection);
 	void Fire(std::vector<Bullet>& bullets);
-	void SetPosition(SDL_Point coords);
+	void SetPosition(const SDL_Point& coords);
 };

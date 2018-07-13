@@ -4,6 +4,7 @@ const int Player::PLAYER_BOX_SIZE					= 40;
 const double Player::DELTA_TURN						= 0.1;
 const int Player::PLAYER_MOVE_STEP					= 5;
 const double Player::LINE_STEP_FOR_PLAYER_CIRCLE	= 0.05;
+const int Player::FIRE_CALLDOWN_MS					= 100;
 
 Player::Player()
 {
@@ -36,26 +37,27 @@ void Player::TurnSight(TurnPlayer turnPlayer)
 
 void Player::Move(const std::vector<SDL_Rect>& map, MoveDirection moveDirection)
 {
+	speedVector = Vector2D(0, 0);
 	SDL_Rect tempRect = rect;
 	switch (moveDirection)
 	{
 	case MOVE_FORWARD:
-		rect.x += direction.x * PLAYER_MOVE_STEP;
-		rect.y += direction.y * PLAYER_MOVE_STEP;
+		speedVector = speedVector + direction * PLAYER_MOVE_STEP;
 		break;
 	case MOVE_BACKWARD:
-		rect.x -= direction.x * PLAYER_MOVE_STEP;
-		rect.y -= direction.y * PLAYER_MOVE_STEP;
+		speedVector = speedVector - direction * PLAYER_MOVE_STEP;
 		break;
 	case MOVE_LEFT:
-		rect.x += direction.y * PLAYER_MOVE_STEP;
-		rect.y -= direction.x * PLAYER_MOVE_STEP;
+		speedVector.x = speedVector.x + direction.y * PLAYER_MOVE_STEP;
+		speedVector.y = speedVector.y - direction.x * PLAYER_MOVE_STEP;
 		break;
 	case MOVE_RIGHT:
-		rect.x -= direction.y * PLAYER_MOVE_STEP;
-		rect.y += direction.x * PLAYER_MOVE_STEP;
+		speedVector.x = speedVector.x - direction.y * PLAYER_MOVE_STEP;
+		speedVector.y = speedVector.y + direction.x * PLAYER_MOVE_STEP;
 		break;
 	}
+	rect.x += speedVector.x;
+	rect.y += speedVector.y;
 
 	for (auto i = 0; i < map.size(); i++)
 	{
@@ -69,10 +71,14 @@ void Player::Move(const std::vector<SDL_Rect>& map, MoveDirection moveDirection)
 
 void Player::Fire(std::vector<Bullet>& bullets)
 {
-	bullets.push_back(Bullet(playerCursor, direction));
+	if (SDL_GetTicks() - fireStart >= FIRE_CALLDOWN_MS)
+	{
+		bullets.push_back(Bullet(playerCursor, direction));
+		fireStart = SDL_GetTicks();
+	}
 }
 
-void Player::SetPosition(SDL_Point coords)
+void Player::SetPosition(const SDL_Point& coords)
 {
 	rect = { coords.x, coords.y, PLAYER_BOX_SIZE, PLAYER_BOX_SIZE };
 	direction.x = 0;
