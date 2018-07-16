@@ -26,6 +26,6 @@ bool KeyboardHandler::IsKeyDown(SDL_Scancode key)
 
 SDL_Event KeyboardHandler::GetEvent()
 {
-	SDL_PumpEvents();
+	SDL_PollEvent(&event);
 	return event;
 }
