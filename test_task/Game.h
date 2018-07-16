@@ -71,6 +71,8 @@ private:
 	void ScreenUpdater();
 	//	Рестарт после завершения раунда
 	void Restart(RoundEnding roundEnding);
+	//	Функция получения абсолютного пути к ресурсу программы
+	std::string GetResourcePath(const std::string &subDir);
 
 public:
 	Game();
@@ -79,4 +81,3 @@ public:
 	//	Старт игры
 	void Start();
 };
-

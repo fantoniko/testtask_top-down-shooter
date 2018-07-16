@@ -6,7 +6,7 @@ Game::Game()
 	SDL_Init(SDL_INIT_EVERYTHING);
 	TTF_Init();
 
-	font = TTF_OpenFont("Roboto-Black.ttf", 40);
+	font = TTF_OpenFont(GetResourcePath("Roboto-Black.ttf").c_str(), 40);
 	const char* windowName = "top-down shooter";
 	mainWindow = SDL_CreateWindow(windowName, 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, NULL);
 
@@ -21,7 +21,7 @@ Game::Game()
 	map.push_back({ 300, 500, 200, 50 });
 	map.push_back({ 300, 0, 400, 30 });
 	map.push_back({ 350, 320, 70, 70 });
-	map.push_back({ 700, 100, 50, 450 });
+	map.push_back({ 700, 100, 50, 250 });
 	map.push_back({ 0, 50, 50, 300 });
 	
 	//	Инициализация флагов
@@ -170,4 +170,21 @@ void Game::Restart(RoundEnding roundEnding)
 	}
 
 	roundContinues = false;
+}
+
+std::string Game::GetResourcePath(const std::string & subDir)
+{
+	const char PATH_SEP = '\\';
+	static std::string baseRes;
+	if (baseRes.empty()) {
+		char *basePath = SDL_GetBasePath();
+		if (basePath) {
+			baseRes = basePath;
+			SDL_free(basePath);
+		}
+
+		size_t pos = baseRes.rfind("bin");
+		baseRes = baseRes.substr(0, pos) + "Resources" + PATH_SEP;
+	}
+	return subDir.empty() ? (baseRes).c_str() : std::string(baseRes + subDir).c_str();
 }

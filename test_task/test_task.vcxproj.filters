@@ -73,8 +73,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Font Include="Roboto-Black.ttf">
+    <_EmbedManagedResourceFile Include="Roboto-Black.ttf">
       <Filter>Файлы ресурсов</Filter>
-    </Font>
+    </_EmbedManagedResourceFile>
   </ItemGroup>
 </Project>

@@ -144,7 +144,10 @@
     <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <ItemGroup>
-    <Font Include="Roboto-Black.ttf" />
+    <_EmbedManagedResourceFile Include="Roboto-Black.ttf">
+      <DeploymentContent>false</DeploymentContent>
+      <FileType>Document</FileType>
+    </_EmbedManagedResourceFile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
